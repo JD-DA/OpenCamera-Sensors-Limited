@@ -36,7 +36,7 @@ public class RawSensorInfo implements SensorEventListener {
     private static final String TAG = "RawSensorInfo";
     private static final String CSV_SEPARATOR = ",";
     private static final List<Integer> SENSOR_TYPES = Collections.unmodifiableList(
-            Arrays.asList(Sensor.TYPE_ACCELEROMETER, Sensor.TYPE_GYROSCOPE, Sensor.TYPE_MAGNETIC_FIELD)
+            Arrays.asList(Sensor.TYPE_ACCELEROMETER, Sensor.TYPE_GYROSCOPE, Sensor.TYPE_MAGNETIC_FIELD, Sensor.TYPE_AMBIENT_TEMPERATURE,Sensor.TYPE_GRAVITY,Sensor.TYPE_PRESSURE,Sensor.TYPE_RELATIVE_HUMIDITY)
     );
     private static final Map<Integer, String> SENSOR_TYPE_NAMES;
     static {
@@ -44,14 +44,13 @@ public class RawSensorInfo implements SensorEventListener {
         SENSOR_TYPE_NAMES.put(Sensor.TYPE_ACCELEROMETER, "accel");
         SENSOR_TYPE_NAMES.put(Sensor.TYPE_GYROSCOPE, "gyro");
         SENSOR_TYPE_NAMES.put(Sensor.TYPE_MAGNETIC_FIELD, "magnetic");
+        SENSOR_TYPE_NAMES.put(Sensor.TYPE_AMBIENT_TEMPERATURE, "thermo");
+        SENSOR_TYPE_NAMES.put(Sensor.TYPE_GRAVITY, "gravity");
+        SENSOR_TYPE_NAMES.put(Sensor.TYPE_PRESSURE, "baro");
+        SENSOR_TYPE_NAMES.put(Sensor.TYPE_RELATIVE_HUMIDITY, "hygro");
     }
 
     final private SensorManager mSensorManager;
-/*    final private Sensor mSensorGyro;
-    final private Sensor mSensorAccel;
-    final private Sensor mSensorMagnetic;
-    private PrintWriter mGyroBufferedWriter;
-    private PrintWriter mAccelBufferedWriter;*/
     private boolean mIsRecording;
     private final Map<Integer, Sensor> mUsedSensorMap;
     private final Map<Integer, PrintWriter> mSensorWriterMap;
@@ -74,20 +73,7 @@ public class RawSensorInfo implements SensorEventListener {
         for (Integer sensorType : SENSOR_TYPES) {
             mUsedSensorMap.put(sensorType, mSensorManager.getDefaultSensor(sensorType));
         }
-/*      mSensorGyro = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
-        mSensorAccel = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        mContext = context;
-        mSensorMagnetic = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 
-        if (MyDebug.LOG) {
-            Log.d(TAG, "RawSensorInfo");
-            if (mSensorGyro == null) {
-                Log.d(TAG, "Gyroscope not available");
-            }
-            if (mSensorAccel == null) {
-                Log.d(TAG, "Accelerometer not available");
-            }
-        }*/
     }
 
     public int getSensorMinDelay(int sensorType) {
@@ -107,7 +93,7 @@ public class RawSensorInfo implements SensorEventListener {
     public void onSensorChanged(SensorEvent event) {
         if (mIsRecording) {
             StringBuilder sensorData = new StringBuilder();
-            for (int j = 0; j < 3; j++) {
+            for (int j = 0; j < event.values.length; j++) {
                 sensorData.append(event.values[j]).append(CSV_SEPARATOR);
             }
             sensorData.append(event.timestamp).append("\n");
@@ -190,14 +176,6 @@ public class RawSensorInfo implements SensorEventListener {
                 new BufferedWriter(rawSensorInfoFileWriter)
         );
         return rawSensorInfoWriter;
-    }
-
-    public void startRecording(MainActivity mainActivity, Date currentVideoDate) {
-        Map<Integer, Boolean> wantSensorRecordingMap = new HashMap<>();
-        for (Integer sensorType : SENSOR_TYPES) {
-            wantSensorRecordingMap.put(sensorType, true);
-        }
-        startRecording(mainActivity, currentVideoDate, wantSensorRecordingMap);
     }
 
     public void startRecording(MainActivity mainActivity, Date currentVideoDate, Map<Integer, Boolean> wantSensorRecordingMap) {

@@ -31,7 +31,6 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
-import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceManager;
@@ -135,6 +134,34 @@ public class MyPreferenceFragment extends PreferenceFragment implements OnShared
             CheckBoxPreference magnetPref = (CheckBoxPreference)findPreference(PreferenceKeys.MagnetometerPrefKey);
             magnetPref.setChecked(false);
             magnetPref.setEnabled(false);
+        }
+
+        final boolean supports_thermometer = bundle.getBoolean(PreferenceKeys.SupportsThermometerKey);
+        if (!supports_thermometer) {
+            CheckBoxPreference thermoPref = (CheckBoxPreference)findPreference(PreferenceKeys.ThermometerPrefKey);
+            thermoPref.setChecked(false);
+            thermoPref.setEnabled(false);
+        }
+
+        final boolean supports_altimeter = bundle.getBoolean(PreferenceKeys.SupportsGravityKey);
+        if (!supports_altimeter) {
+            CheckBoxPreference altiPref = (CheckBoxPreference)findPreference(PreferenceKeys.GravityPrefKey);
+            altiPref.setChecked(false);
+            altiPref.setEnabled(false);
+        }
+
+        final boolean supports_barometer = bundle.getBoolean(PreferenceKeys.SupportsBarometerKey);
+        if (!supports_barometer) {
+            CheckBoxPreference baroPref = (CheckBoxPreference)findPreference(PreferenceKeys.BarometerPrefKey);
+            baroPref.setChecked(false);
+            baroPref.setEnabled(false);
+        }
+
+        final boolean supports_hygrometer = bundle.getBoolean(PreferenceKeys.SupportsHygrometerKey);
+        if (!supports_hygrometer) {
+            CheckBoxPreference hygroPref = (CheckBoxPreference)findPreference(PreferenceKeys.HygrometerPrefKey);
+            hygroPref.setChecked(false);
+            hygroPref.setEnabled(false);
         }
         final boolean supports_auto_stabilise = bundle.getBoolean("supports_auto_stabilise");
         if( MyDebug.LOG )

@@ -325,11 +325,27 @@ public class PreferenceKeys {
 
     public static final String MagnetometerPrefKey = "preference_magnetometer";
 
+    public static final String ThermometerPrefKey = "preference_thermometer";
+
+    public static final String GravityPrefKey = "preference_gravity";
+
+    public static final String BarometerPrefKey = "preference_barometer";
+
+    public static final String HygrometerPrefKey = "preference_hygrometer";
+
     public static final String SupportsMagnetometerKey = "preference_supports_magnetometer";
 
     public static final String SupportsAccelKey = "supports_accel";
 
     public static final String SupportsGyroKey = "supports_gyro";
+
+    public static final String SupportsThermometerKey = "supports_thermo";
+
+    public static final String SupportsGravityKey = "supports_gravity";
+
+    public static final String SupportsBarometerKey = "supports_baro";
+
+    public static final String SupportsHygrometerKey = "supports_hygro";
 
     public static final String saveFramesPreferenceKey = "preference_save_video_frames";
 
@@ -338,6 +354,14 @@ public class PreferenceKeys {
     public static final String GyroSampleRatePreferenceKey = "preference_gyro_sample_rate";
 
     public static final String MagneticSampleRatePreferenceKey = "preference_magnetic_sample_rate";
+
+    public static final String ThermoSampleRatePreferenceKey = "preference_thermo_sample_rate";
+
+    public static final String GraviSampleRatePreferenceKey = "preference_gravi_sample_rate";
+
+    public static final String HygroSampleRatePreferenceKey = "preference_gravi_sample_rate";
+
+    public static final String BaroSampleRatePreferenceKey = "preference_baro_sample_rate";
 
     public static final String FlashStrobeFreqPreferenceKey = "preference_strobe_freq";
 

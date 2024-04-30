@@ -117,6 +117,28 @@
                     android:title="MAGNETOMETER"
                     android:defaultValue="true"
                     />
+
+                <CheckBoxPreference
+                        android:key="preference_thermometer"
+                        android:title="TEMPERATURE"
+                        android:defaultValue="true"
+                />
+                <CheckBoxPreference
+                        android:key="preference_gravity"
+                        android:title="GRAVITY"
+                        android:defaultValue="true"
+                />
+                <CheckBoxPreference
+                        android:key="preference_barometer"
+                        android:title="BAROMETER"
+                        android:defaultValue="true"
+                />
+                <CheckBoxPreference
+                        android:key="preference_hygrometer"
+                        android:title="HYGROMETER"
+                        android:defaultValue="true"
+                />
+
             </PreferenceCategory>
 
             <PreferenceCategory

@@ -64,6 +64,26 @@ public class PreferenceHandler {
         return mSharedPreferences.getBoolean(PreferenceKeys.MagnetometerPrefKey, true);
     }
 
+    public boolean isTempEnabled() {
+        return mSharedPreferences.getBoolean(PreferenceKeys.ThermometerPrefKey, true);
+    }
+
+    public boolean isGravityEnabled() {
+        return mSharedPreferences.getBoolean(PreferenceKeys.GravityPrefKey, true);
+    }
+
+    public boolean isBaroEnabled() {
+        return mSharedPreferences.getBoolean(PreferenceKeys.BarometerPrefKey, true);
+    }
+
+    public boolean isHygroEnabled() {
+        return mSharedPreferences.getBoolean(PreferenceKeys.HygrometerPrefKey, true);
+    }
+
+    public boolean isIMUSensorEnabled() {
+        return isAccelEnabled() || isGyroEnabled() || isMagneticEnabled() || isTempEnabled() || isBaroEnabled() || isHygroEnabled();
+    }
+
     public String getVideoFormat() {
         return mSharedPreferences.getString(PreferenceKeys.VideoFormatPreferenceKey, PreferenceKeys.VideoOutputFormatDefaultPreferenceKey);
     }

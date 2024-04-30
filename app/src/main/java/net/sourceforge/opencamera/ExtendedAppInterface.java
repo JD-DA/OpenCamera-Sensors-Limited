@@ -180,11 +180,11 @@ public class ExtendedAppInterface extends MyApplicationInterface {
             Log.d(TAG, "starting video");
         }
 
-        if (mPrefs.isIMURecordingEnabled() && useCamera2() && (mPrefs.isGyroEnabled() || mPrefs.isAccelEnabled() || mPrefs.isMagneticEnabled())) {
+        if (mPrefs.isIMURecordingEnabled() && useCamera2() && mPrefs.isIMUSensorEnabled()) {
             // Extracting sample rates from shared preferences
             try {
                 mMainActivity.getPreview().showToast("Starting video with IMU recording...", true);
-                startImu(mPrefs.isAccelEnabled(), mPrefs.isGyroEnabled(), mPrefs.isMagneticEnabled(), mLastVideoDate);
+                startImu(mLastVideoDate);
                 // TODO: add message to strings.xml
             } catch (NumberFormatException e) {
                 if (MyDebug.LOG) {
@@ -272,31 +272,58 @@ public class ExtendedAppInterface extends MyApplicationInterface {
         mMainActivity.getPreview().showToast(null, "Couldn't write frame timestamps");
     }
 
-    public void startImu(boolean wantAccel, boolean wantGyro, boolean wantMagnetic, Date currentDate) {
-        if (wantAccel) {
+    public void startImu(Date currentDate) {
+        if (mPrefs.isAccelEnabled()) {
             int accelSampleRate = mPrefs.getSensorSampleRate(PreferenceKeys.AccelSampleRatePreferenceKey);
             if (!mRawSensorInfo.enableSensor(Sensor.TYPE_ACCELEROMETER, accelSampleRate)) {
                 mMainActivity.getPreview().showToast(null, "Accelerometer unavailable");
             }
         }
-        if (wantGyro) {
+        if (mPrefs.isGyroEnabled()) {
             int gyroSampleRate = mPrefs.getSensorSampleRate(PreferenceKeys.GyroSampleRatePreferenceKey);
             if (!mRawSensorInfo.enableSensor(Sensor.TYPE_GYROSCOPE, gyroSampleRate)) {
                 mMainActivity.getPreview().showToast(null, "Gyroscope unavailable");
             }
         }
-        if (wantMagnetic) {
+        if (mPrefs.isMagneticEnabled()) {
             int magneticSampleRate = mPrefs.getSensorSampleRate(PreferenceKeys.MagneticSampleRatePreferenceKey);
             if (!mRawSensorInfo.enableSensor(Sensor.TYPE_MAGNETIC_FIELD, magneticSampleRate)) {
                 mMainActivity.getPreview().showToast(null, "Magnetometer unavailable");
             }
         }
+        if (mPrefs.isBaroEnabled()) {
+            int baroSampleRate = mPrefs.getSensorSampleRate(PreferenceKeys.BaroSampleRatePreferenceKey);
+            if (!mRawSensorInfo.enableSensor(Sensor.TYPE_PRESSURE, baroSampleRate)) {
+                mMainActivity.getPreview().showToast(null, "Barometer unavailable");
+            }
+        }
+        if (mPrefs.isGravityEnabled()) {
+            int gravitySampleRate = mPrefs.getSensorSampleRate(PreferenceKeys.GraviSampleRatePreferenceKey);
+            if(!mRawSensorInfo.enableSensor(Sensor.TYPE_GRAVITY, gravitySampleRate)) {
+                mMainActivity.getPreview().showToast(null, "Gravity unavailable");
+            }
+        }
+        if (mPrefs.isTempEnabled()){
+            int tempSampleRate = mPrefs.getSensorSampleRate(PreferenceKeys.ThermoSampleRatePreferenceKey);
+            if (!mRawSensorInfo.enableSensor(Sensor.TYPE_AMBIENT_TEMPERATURE, tempSampleRate)) {
+                mMainActivity.getPreview().showToast(null, "Temperature unavailable");
+            }
+        }
+        if (mPrefs.isHygroEnabled()) {
+            int hygroSampleRate = mPrefs.getSensorSampleRate(PreferenceKeys.HygroSampleRatePreferenceKey);
+            if (!mRawSensorInfo.enableSensor(Sensor.TYPE_RELATIVE_HUMIDITY, hygroSampleRate)) {
+                mMainActivity.getPreview().showToast(null, "Humidity unavailable");
+            }
+        }
 
-        //mRawSensorInfo.startRecording(mMainActivity, mLastVideoDate, get Pref(), getAccelPref())
         Map<Integer, Boolean> wantSensorRecordingMap = new HashMap<>();
         wantSensorRecordingMap.put(Sensor.TYPE_ACCELEROMETER, mPrefs.isAccelEnabled());
         wantSensorRecordingMap.put(Sensor.TYPE_GYROSCOPE, mPrefs.isGyroEnabled());
         wantSensorRecordingMap.put(Sensor.TYPE_MAGNETIC_FIELD, mPrefs.isMagneticEnabled());
+        wantSensorRecordingMap.put(Sensor.TYPE_PRESSURE, mPrefs.isBaroEnabled());
+        wantSensorRecordingMap.put(Sensor.TYPE_GRAVITY, mPrefs.isGravityEnabled());
+        wantSensorRecordingMap.put(Sensor.TYPE_AMBIENT_TEMPERATURE, mPrefs.isTempEnabled());
+        wantSensorRecordingMap.put(Sensor.TYPE_RELATIVE_HUMIDITY,mPrefs.isHygroEnabled());
         mRawSensorInfo.startRecording(mMainActivity, currentDate, wantSensorRecordingMap);
     }
 

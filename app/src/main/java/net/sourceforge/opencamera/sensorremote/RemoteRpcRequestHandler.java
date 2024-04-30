@@ -75,7 +75,7 @@ public class RemoteRpcRequestHandler {
 //                prefEditor.apply();
 
                 Date currentDate = new Date();
-                mContext.getApplicationInterface().startImu(wantAccel, wantGyro, wantMagnetic, currentDate);
+                mContext.getApplicationInterface().startImu(currentDate);
                 return null;
             };
 

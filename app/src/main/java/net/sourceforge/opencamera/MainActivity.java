@@ -279,6 +279,10 @@ public class MainActivity extends Activity {
         prefEditor.putBoolean(PreferenceKeys.AccelPreferenceKey, true);
         prefEditor.putBoolean(PreferenceKeys.GyroPreferenceKey, true);
         prefEditor.putBoolean(PreferenceKeys.MagnetometerPrefKey, true);
+        prefEditor.putBoolean(PreferenceKeys.ThermometerPrefKey, true);
+        prefEditor.putBoolean(PreferenceKeys.GravityPrefKey, true);
+        prefEditor.putBoolean(PreferenceKeys.BarometerPrefKey, true);
+        prefEditor.putBoolean(PreferenceKeys.HygrometerPrefKey, true);
         prefEditor.apply();
 
 
@@ -2391,6 +2395,53 @@ public class MainActivity extends Activity {
         }
     }
 
+    private String getSensorTypeName(int sensorType) {
+        switch (sensorType) {
+            case Sensor.TYPE_ACCELEROMETER:
+                return "Accelerometer";
+            case Sensor.TYPE_AMBIENT_TEMPERATURE:
+                return "Ambient Temperature";
+            case Sensor.TYPE_GAME_ROTATION_VECTOR:
+                return "Game Rotation Vector";
+            case Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR:
+                return "Geomagnetic Rotation Vector";
+            case Sensor.TYPE_GRAVITY:
+                return "Gravity";
+            case Sensor.TYPE_GYROSCOPE:
+                return "Gyroscope";
+            case Sensor.TYPE_GYROSCOPE_UNCALIBRATED:
+                return "Gyroscope Uncalibrated";
+            case Sensor.TYPE_HEART_RATE:
+                return "Heart Rate";
+            case Sensor.TYPE_LIGHT:
+                return "Light";
+            case Sensor.TYPE_LINEAR_ACCELERATION:
+                return "Linear Acceleration";
+            case Sensor.TYPE_MAGNETIC_FIELD:
+                return "Magnetic Field";
+            case Sensor.TYPE_MAGNETIC_FIELD_UNCALIBRATED:
+                return "Magnetic Field Uncalibrated";
+            case Sensor.TYPE_ORIENTATION:
+                return "Orientation";
+            case Sensor.TYPE_PRESSURE:
+                return "Pressure";
+            case Sensor.TYPE_PROXIMITY:
+                return "Proximity";
+            case Sensor.TYPE_RELATIVE_HUMIDITY:
+                return "Relative Humidity";
+            case Sensor.TYPE_ROTATION_VECTOR:
+                return "Rotation Vector";
+            case Sensor.TYPE_SIGNIFICANT_MOTION:
+                return "Significant Motion";
+            case Sensor.TYPE_STEP_COUNTER:
+                return "Step Counter";
+            case Sensor.TYPE_STEP_DETECTOR:
+                return "Step Detector";
+            default:
+                return "Unknown Sensor Type";
+        }
+    }
+
     public void openSettings() {
         if( MyDebug.LOG )
             Log.d(TAG, "openSettings");
@@ -2412,9 +2463,24 @@ public class MainActivity extends Activity {
         }
 
         Bundle bundle = new Bundle();
+
+        SensorManager sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        List<Sensor> deviceSensors = sensorManager.getSensorList(Sensor.TYPE_ALL);
+        for (Sensor sensor : deviceSensors) {
+            String sensorTypeName = getSensorTypeName(sensor.getType());
+            Log.d("SensorCheck", "Sensor type: " + sensorTypeName + ", Name: " + sensor.getName());
+        }
+
+        Log.d(TAG, "Sensors Available: " + deviceSensors.toString());
+
+
         bundle.putBoolean(PreferenceKeys.SupportsGyroKey, mRawSensorInfo.isSensorAvailable(Sensor.TYPE_GYROSCOPE));
         bundle.putBoolean(PreferenceKeys.SupportsAccelKey, mRawSensorInfo.isSensorAvailable(Sensor.TYPE_ACCELEROMETER));
         bundle.putBoolean(PreferenceKeys.SupportsMagnetometerKey, mRawSensorInfo.isSensorAvailable(Sensor.TYPE_MAGNETIC_FIELD));
+        bundle.putBoolean(PreferenceKeys.SupportsThermometerKey, mRawSensorInfo.isSensorAvailable(Sensor.TYPE_AMBIENT_TEMPERATURE));
+        bundle.putBoolean(PreferenceKeys.SupportsGravityKey, mRawSensorInfo.isSensorAvailable(Sensor.TYPE_GRAVITY));
+        bundle.putBoolean(PreferenceKeys.SupportsHygrometerKey, mRawSensorInfo.isSensorAvailable(Sensor.TYPE_RELATIVE_HUMIDITY));
+        bundle.putBoolean(PreferenceKeys.SupportsBarometerKey, mRawSensorInfo.isSensorAvailable(Sensor.TYPE_PRESSURE));
 
         bundle.putInt("cameraId", this.preview.getCameraId());
         bundle.putInt("nCameras", preview.getCameraControllerManager().getNumberOfCameras());
