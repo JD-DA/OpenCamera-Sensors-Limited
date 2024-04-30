@@ -334,7 +334,6 @@ public class MainUI {
             buttons_permanent.add(main_activity.findViewById(R.id.auto_level));
             buttons_permanent.add(main_activity.findViewById(R.id.cycle_flash));
             buttons_permanent.add(main_activity.findViewById(R.id.face_detection));
-            buttons_permanent.add(main_activity.findViewById(R.id.audio_control));
             buttons_permanent.add(main_activity.findViewById(R.id.kraken_icon));
 
             List<View> buttons_all = new ArrayList<>(buttons_permanent);
@@ -1107,7 +1106,6 @@ public class MainUI {
                 View autoLevelButton = main_activity.findViewById(R.id.auto_level);
                 View cycleFlashButton = main_activity.findViewById(R.id.cycle_flash);
                 View faceDetectionButton = main_activity.findViewById(R.id.face_detection);
-                View audioControlButton = main_activity.findViewById(R.id.audio_control);
                 View popupButton = main_activity.findViewById(R.id.popup);
                 View syncSettingsButton = main_activity.findViewById(R.id.sync_settings);
                 View alignPhasesButton = main_activity.findViewById(R.id.align_phases);
@@ -1146,8 +1144,6 @@ public class MainUI {
                     faceDetectionButton.setVisibility(visibility);
                 if( showSyncSettingsIcon() )
                     syncSettingsButton.setVisibility(visibility);
-                if( main_activity.hasAudioControl() )
-                    audioControlButton.setVisibility(visibility);
                 popupButton.setVisibility(visibility_settings_sync);
                 galleryButton.setVisibility(visibility);
                 settingsButton.setVisibility(visibility);
@@ -1253,7 +1249,6 @@ public class MainUI {
                 View autoLevelButton = main_activity.findViewById(R.id.auto_level);
                 View cycleFlashButton = main_activity.findViewById(R.id.cycle_flash);
                 View faceDetectionButton = main_activity.findViewById(R.id.face_detection);
-                View audioControlButton = main_activity.findViewById(R.id.audio_control);
                 View popupButton = main_activity.findViewById(R.id.popup);
                 View syncSettingsButton = main_activity.findViewById(R.id.sync_settings);
                 View alignPhasesButton = main_activity.findViewById(R.id.align_phases);
@@ -1286,8 +1281,6 @@ public class MainUI {
                     faceDetectionButton.setVisibility(visibility);
                 if( showSyncSettingsIcon() )
                     syncSettingsButton.setVisibility(visibility);
-                if( main_activity.hasAudioControl() )
-                    audioControlButton.setVisibility(visibility);
                 if( !(show_gui_photo && show_gui_video) ) {
                     closePopup(); // we still allow the popup when recording video, but need to update the UI (so it only shows flash options), so easiest to just close
                 }
@@ -1442,18 +1435,6 @@ public class MainUI {
         this.updateFaceDetectionIcon();
         this.updateSwitchVideoIcon();
         this.updateSyncSettingsIcon();
-    }
-
-    public void audioControlStarted() {
-        ImageButton view = main_activity.findViewById(R.id.audio_control);
-        view.setImageResource(R.drawable.ic_mic_red_48dp);
-        view.setContentDescription( main_activity.getResources().getString(R.string.audio_control_stop) );
-    }
-
-    public void audioControlStopped() {
-        ImageButton view = main_activity.findViewById(R.id.audio_control);
-        view.setImageResource(R.drawable.ic_mic_white_48dp);
-        view.setContentDescription( main_activity.getResources().getString(R.string.audio_control_start) );
     }
 
     public boolean isExposureUIOpen() {
@@ -2392,7 +2373,6 @@ public class MainUI {
 
         closeExposureUI();
         main_activity.getPreview().cancelTimer(); // best to cancel any timer, in case we take a photo while settings window is open, or when changing settings
-        main_activity.stopAudioListeners();
 
         final long time_s = System.currentTimeMillis();
 

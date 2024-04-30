@@ -3173,48 +3173,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         assertEquals(seekBarWB.getVisibility(), View.VISIBLE);
     }
 
-    /** Tests that the audio control icon is visible or not as expect (guards against bug fixed in 1.30)
-     */
-    public void testAudioControlIcon() {
-        Log.d(TAG, "testAudioControlIcon");
 
-        setToDefault();
-
-        View audioControlButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.audio_control);
-        assertEquals(audioControlButton.getVisibility(), View.GONE);
-
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(mActivity);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString(PreferenceKeys.AudioControlPreferenceKey, "noise");
-        editor.apply();
-        updateForSettings();
-        assertEquals(audioControlButton.getVisibility(), View.VISIBLE);
-
-        restart();
-        // reset due to restarting!
-        settings = PreferenceManager.getDefaultSharedPreferences(mActivity);
-        editor = settings.edit();
-        audioControlButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.audio_control);
-
-        assertEquals(audioControlButton.getVisibility(), View.VISIBLE);
-
-        editor.putString(PreferenceKeys.AudioControlPreferenceKey, "none");
-        editor.apply();
-        updateForSettings();
-        Log.d(TAG, "visibility is now: " + audioControlButton.getVisibility());
-        assertEquals(audioControlButton.getVisibility(), View.GONE);
-
-        editor.putString(PreferenceKeys.AudioControlPreferenceKey, "voice");
-        editor.apply();
-        updateForSettings();
-        assertEquals(audioControlButton.getVisibility(), View.VISIBLE);
-
-        editor.putString(PreferenceKeys.AudioControlPreferenceKey, "none");
-        editor.apply();
-        updateForSettings();
-        Log.d(TAG, "visibility is now: " + audioControlButton.getVisibility());
-        assertEquals(audioControlButton.getVisibility(), View.GONE);
-    }
 
     /** Test for on-screen icon. Cycles through cameras and checks that the visibility of
      *  the icons matches whether available for that camera - currently tests for flash and RAW.
@@ -3271,7 +3230,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         //View focusButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.focus_mode);
         View exposureButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.exposure);
         View exposureLockButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.exposure_lock);
-        View audioControlButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.audio_control);
         View popupButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.popup);
         View trashButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.trash);
         View shareButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.share);
@@ -3700,14 +3658,12 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 
     private void postTakePhotoChecks(final boolean immersive_mode, final int exposureVisibility, final int exposureLockVisibility) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
-        boolean has_audio_control_button = !sharedPreferences.getString(PreferenceKeys.AudioControlPreferenceKey, "none").equals("none");
 
         View switchCameraButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.switch_camera);
         View switchMultiCameraButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.switch_multi_camera);
         View switchVideoButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.switch_video);
         View exposureButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.exposure);
         View exposureLockButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.exposure_lock);
-        View audioControlButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.audio_control);
         View popupButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.popup);
         View trashButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.trash);
         View shareButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.share);
@@ -3721,7 +3677,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
             assertEquals(switchVideoButton.getVisibility(), View.GONE);
             assertEquals(exposureButton.getVisibility(), View.GONE);
             assertEquals(exposureLockButton.getVisibility(), View.GONE);
-            assertEquals(audioControlButton.getVisibility(), View.GONE);
             assertEquals(popupButton.getVisibility(), View.GONE);
             assertEquals(trashButton.getVisibility(), View.VISIBLE);
             assertEquals(shareButton.getVisibility(), View.VISIBLE);
@@ -3735,7 +3690,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
                 assertEquals(exposureButton.getVisibility(), exposureVisibility);
                 assertEquals(exposureLockButton.getVisibility(), exposureLockVisibility);
             }
-            assertEquals(audioControlButton.getVisibility(), (has_audio_control_button ? View.VISIBLE : View.GONE));
             assertEquals(popupButton.getVisibility(), View.VISIBLE);
             assertEquals(trashButton.getVisibility(), View.GONE);
             assertEquals(shareButton.getVisibility(), View.GONE);
@@ -3751,7 +3705,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
         boolean has_thumbnail_anim = sharedPreferences.getBoolean(PreferenceKeys.ThumbnailAnimationPreferenceKey, true);
-        boolean has_audio_control_button = !sharedPreferences.getString(PreferenceKeys.AudioControlPreferenceKey, "none").equals("none");
         boolean is_dro = mActivity.supportsDRO() && sharedPreferences.getString(PreferenceKeys.PhotoModePreferenceKey, "preference_photo_mode_std").equals("preference_photo_mode_dro");
         boolean is_hdr = mActivity.supportsHDR() && sharedPreferences.getString(PreferenceKeys.PhotoModePreferenceKey, "preference_photo_mode_std").equals("preference_photo_mode_hdr");
         boolean is_nr = mActivity.supportsNoiseReduction() && sharedPreferences.getString(PreferenceKeys.PhotoModePreferenceKey, "preference_photo_mode_std").equals("preference_photo_mode_noise_reduction");
@@ -3779,7 +3732,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         //View focusButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.focus_mode);
         View exposureButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.exposure);
         View exposureLockButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.exposure_lock);
-        View audioControlButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.audio_control);
         View popupButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.popup);
         View trashButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.trash);
         View shareButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.share);
@@ -3788,7 +3740,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         assertEquals(switchVideoButton.getVisibility(), (immersive_mode ? View.GONE : View.VISIBLE));
         int exposureVisibility = exposureButton.getVisibility();
         int exposureLockVisibility = exposureLockButton.getVisibility();
-        assertEquals(audioControlButton.getVisibility(), ((has_audio_control_button && !immersive_mode) ? View.VISIBLE : View.GONE));
         assertEquals(popupButton.getVisibility(), (immersive_mode ? View.GONE : View.VISIBLE));
         assertEquals(trashButton.getVisibility(), View.GONE);
         assertEquals(shareButton.getVisibility(), View.GONE);
@@ -4838,17 +4789,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         subTestTakePhoto(false, false, true, true, false, false, false, false);
     }
 
-    public void testTakePhotoAudioButton() throws InterruptedException {
-        Log.d(TAG, "testTakePhotoAudioButton");
-        setToDefault();
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(mActivity);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString(PreferenceKeys.AudioControlPreferenceKey, "voice");
-        editor.apply();
-        updateForSettings();
-
-        subTestTakePhoto(false, false, true, true, false, false, false, false);
-    }
 
     // If this fails with a SecurityException about needing INJECT_EVENTS permission, this seems to be due to the "help popup" that Android shows - can be fixed by clearing that manually, then rerunning the test.
     public void testImmersiveMode() throws InterruptedException {
@@ -4863,7 +4803,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(mActivity);
         SharedPreferences.Editor editor = settings.edit();
         editor.putString(PreferenceKeys.ImmersiveModePreferenceKey, "immersive_mode_gui");
-        editor.putString(PreferenceKeys.AudioControlPreferenceKey, "voice");
         editor.apply();
         updateForSettings();
 
@@ -4874,7 +4813,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         View switchVideoButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.switch_video);
         View exposureButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.exposure);
         View exposureLockButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.exposure_lock);
-        View audioControlButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.audio_control);
         View popupButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.popup);
         View trashButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.trash);
         View shareButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.share);
@@ -5357,7 +5295,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         editor.apply();
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
-        boolean has_audio_control_button = !sharedPreferences.getString(PreferenceKeys.AudioControlPreferenceKey, "none").equals("none");
 
         Log.d(TAG, "check if preview is started");
         assertTrue(mPreview.isPreviewStarted());
@@ -5369,7 +5306,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         //View focusButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.focus_mode);
         View exposureButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.exposure);
         View exposureLockButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.exposure_lock);
-        View audioControlButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.audio_control);
         View popupButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.popup);
         View trashButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.trash);
         View shareButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.share);
@@ -5379,7 +5315,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         // store status to compare with later
         int exposureVisibility = exposureButton.getVisibility();
         int exposureLockVisibility = exposureLockButton.getVisibility();
-        assertEquals(audioControlButton.getVisibility(), ((has_audio_control_button && !immersive_mode) ? View.VISIBLE : View.GONE));
         assertEquals(popupButton.getVisibility(), (immersive_mode ? View.GONE : View.VISIBLE));
         assertEquals(trashButton.getVisibility(), View.GONE);
         assertEquals(shareButton.getVisibility(), View.GONE);
@@ -5412,7 +5347,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         assertEquals(switchVideoButton.getVisibility(), View.GONE);
         assertEquals(exposureButton.getVisibility(), View.GONE);
         assertEquals(exposureLockButton.getVisibility(), View.GONE);
-        assertEquals(audioControlButton.getVisibility(), View.GONE);
         assertEquals(popupButton.getVisibility(), View.GONE);
         assertEquals(trashButton.getVisibility(), View.VISIBLE);
         assertEquals(shareButton.getVisibility(), View.VISIBLE);
@@ -5440,7 +5374,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
             assertEquals(exposureButton.getVisibility(), exposureVisibility);
             assertEquals(exposureLockButton.getVisibility(), exposureLockVisibility);
         }
-        assertEquals(audioControlButton.getVisibility(), (has_audio_control_button ? View.VISIBLE : View.GONE));
         assertEquals(popupButton.getVisibility(), View.VISIBLE);
         assertEquals(trashButton.getVisibility(), View.GONE);
         assertEquals(shareButton.getVisibility(), View.GONE);
@@ -5468,7 +5401,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         setToDefault();
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(mActivity);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putString(PreferenceKeys.AudioControlPreferenceKey, "voice");
         editor.apply();
         updateForSettings();
 
@@ -5511,7 +5443,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         editor.apply();
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
-        boolean has_audio_control_button = !sharedPreferences.getString(PreferenceKeys.AudioControlPreferenceKey, "none").equals("none");
 
         assertTrue(mPreview.isPreviewStarted());
 
@@ -5522,7 +5453,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         //View focusButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.focus_mode);
         View exposureButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.exposure);
         View exposureLockButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.exposure_lock);
-        View audioControlButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.audio_control);
         View popupButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.popup);
         View trashButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.trash);
         View shareButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.share);
@@ -5862,7 +5792,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         editor.apply();
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
-        boolean has_audio_control_button = !sharedPreferences.getString(PreferenceKeys.AudioControlPreferenceKey, "none").equals("none");
 
         assertTrue(mPreview.isPreviewStarted());
 
@@ -5877,7 +5806,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         //View focusButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.focus_mode);
         View exposureButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.exposure);
         View exposureLockButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.exposure_lock);
-        View audioControlButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.audio_control);
         View popupButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.popup);
         View trashButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.trash);
         View shareButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.share);
@@ -5890,7 +5818,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         //int focusVisibility = focusButton.getVisibility();
         int exposureVisibility = exposureButton.getVisibility();
         int exposureLockVisibility = exposureLockButton.getVisibility();
-        assertEquals(audioControlButton.getVisibility(), (has_audio_control_button ? View.VISIBLE : View.GONE));
         assertEquals(popupButton.getVisibility(), View.VISIBLE);
         assertEquals(trashButton.getVisibility(), View.GONE);
         assertEquals(shareButton.getVisibility(), View.GONE);
@@ -6174,7 +6101,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         Log.d(TAG, "n_files at start: " + n_files);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
-        boolean has_audio_control_button = !sharedPreferences.getString(PreferenceKeys.AudioControlPreferenceKey, "none").equals("none");
 
         View switchCameraButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.switch_camera);
         View switchMultiCameraButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.switch_multi_camera);
@@ -6182,7 +6108,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         //View focusButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.focus_mode);
         View exposureButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.exposure);
         View exposureLockButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.exposure_lock);
-        View audioControlButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.audio_control);
         View popupButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.popup);
         View trashButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.trash);
         View shareButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.share);
@@ -6192,7 +6117,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         // but store status to compare with later
         int exposureVisibility = exposureButton.getVisibility();
         int exposureLockVisibility = exposureLockButton.getVisibility();
-        assertEquals(audioControlButton.getVisibility(), ((has_audio_control_button && !immersive_mode) ? View.VISIBLE : View.GONE));
         assertEquals(popupButton.getVisibility(), (immersive_mode ? View.GONE : View.VISIBLE));
         assertEquals(trashButton.getVisibility(), View.GONE);
         assertEquals(shareButton.getVisibility(), View.GONE);
@@ -6399,7 +6323,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         setToDefault();
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(mActivity);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putString(PreferenceKeys.AudioControlPreferenceKey, "voice");
         editor.apply();
         updateForSettings();
 
@@ -8021,7 +7944,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         Log.d(TAG, "n_files at start: " + n_files);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
-        boolean has_audio_control_button = !sharedPreferences.getString(PreferenceKeys.AudioControlPreferenceKey, "none").equals("none");
 
         View switchCameraButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.switch_camera);
         View switchMultiCameraButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.switch_multi_camera);
@@ -8029,7 +7951,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         //View focusButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.focus_mode);
         View exposureButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.exposure);
         View exposureLockButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.exposure_lock);
-        View audioControlButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.audio_control);
         View popupButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.popup);
         View trashButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.trash);
         View shareButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.share);
@@ -8042,7 +7963,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         //int focusVisibility = focusButton.getVisibility();
         int exposureVisibility = exposureButton.getVisibility();
         int exposureLockVisibility = exposureLockButton.getVisibility();
-        assertEquals(audioControlButton.getVisibility(), (has_audio_control_button ? View.VISIBLE : View.GONE));
         assertEquals(popupButton.getVisibility(), View.VISIBLE);
         assertEquals(trashButton.getVisibility(), View.GONE);
         assertEquals(shareButton.getVisibility(), View.GONE);
@@ -12206,7 +12126,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         View switchVideoButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.switch_video);
         View exposureButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.exposure);
         View exposureLockButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.exposure_lock);
-        View audioControlButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.audio_control);
         View popupButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.popup);
         View trashButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.trash);
         View shareButton = mActivity.findViewById(net.sourceforge.opencamera.R.id.share);
@@ -12219,7 +12138,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         assertEquals(switchVideoButton.getVisibility(), View.VISIBLE);
         assertEquals(exposureButton.getVisibility(), View.VISIBLE);
         assertEquals(exposureLockButton.getVisibility(), (mPreview.supportsExposureLock() ? View.VISIBLE : View.GONE));
-        assertEquals(audioControlButton.getVisibility(), View.GONE);
         assertEquals(popupButton.getVisibility(), View.VISIBLE);
         assertEquals(trashButton.getVisibility(), View.GONE);
         assertEquals(shareButton.getVisibility(), View.GONE);
@@ -12247,7 +12165,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
             assertEquals(switchVideoButton.getVisibility(), View.GONE);
             assertEquals(exposureButton.getVisibility(), View.GONE);
             assertEquals(exposureLockButton.getVisibility(), View.GONE);
-            assertEquals(audioControlButton.getVisibility(), View.GONE);
             assertEquals(popupButton.getVisibility(), View.GONE);
             assertEquals(trashButton.getVisibility(), View.GONE);
             assertEquals(shareButton.getVisibility(), View.GONE);

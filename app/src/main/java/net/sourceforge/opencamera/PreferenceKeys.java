@@ -111,8 +111,6 @@ public class PreferenceKeys {
 
     public static final String VolumeKeysPreferenceKey = "preference_volume_keys";
 
-    public static final String AudioControlPreferenceKey = "preference_audio_control";
-
     public static final String AudioNoiseControlSensitivityPreferenceKey = "preference_audio_noise_control_sensitivity";
 
     public static final String QualityPreferenceKey = "preference_quality";

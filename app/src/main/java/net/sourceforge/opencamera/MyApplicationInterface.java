@@ -1916,7 +1916,6 @@ public class MyApplicationInterface extends BasicApplicationInterface {
         if( sharedPreferences.getBoolean(PreferenceKeys.LockVideoPreferenceKey, false) ) {
             main_activity.lockScreen();
         }
-        main_activity.stopAudioListeners(); // important otherwise MediaRecorder will fail to start() if we have an audiolistener! Also don't want to have the speech recognizer going off
         ImageButton view = main_activity.findViewById(R.id.take_photo);
         view.setImageResource(R.drawable.take_video_recording);
         view.setContentDescription( getContext().getResources().getString(R.string.stop_video) );

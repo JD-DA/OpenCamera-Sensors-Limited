@@ -131,7 +131,6 @@ public class MainActivity extends Activity {
     private TextFormatter textFormatter;
     private SoundPoolManager soundPoolManager;
     private MagneticSensor magneticSensor;
-    private SpeechControl speechControl;
 
     private Preview preview;
     private OrientationEventListener orientationEventListener;
@@ -339,7 +338,6 @@ public class MainActivity extends Activity {
         textFormatter = new TextFormatter(this);
         soundPoolManager = new SoundPoolManager(this);
         magneticSensor = new MagneticSensor(this);
-        speechControl = new SpeechControl(this);
 
         // determine whether we support Camera2 API
         initCamera2Support();
@@ -445,8 +443,6 @@ public class MainActivity extends Activity {
         View switchVideoButton = findViewById(R.id.switch_video);
         switchVideoButton.setEnabled(true);
         // switchMultiCameraButton visibility updated below in mainUI.updateOnScreenIcons(), as it also depends on user preference
-        View speechRecognizerButton = findViewById(R.id.audio_control);
-        speechRecognizerButton.setVisibility(View.GONE); // disabled by default, until the speech recognizer is created
         if( MyDebug.LOG )
             Log.d(TAG, "onCreate: time after setting button visibility: " + (System.currentTimeMillis() - debug_time));
         View pauseVideoButton = findViewById(R.id.pause_video);
@@ -1468,7 +1464,6 @@ public class MainActivity extends Activity {
         // if BLE remote control is enabled, then start the background BLE service
         bluetoothRemoteControl.startRemoteControl();
 
-        speechControl.initSpeechRecognizer();
         initLocation();
         initGyroSensors();
         applicationInterface.getImageSaver().onResume();
@@ -1576,7 +1571,6 @@ public class MainActivity extends Activity {
         }
         bluetoothRemoteControl.stopRemoteControl();
         freeAudioListener(false);
-        speechControl.stopSpeechRecognizer();
         applicationInterface.getLocationSupplier().freeLocationListeners();
         applicationInterface.stopPanorama(true); // in practice not needed as we should stop panorama when camera is closed, but good to do it explicitly here, before disabling the gyro sensors
         applicationInterface.getGyroSensor().disableSensors();
@@ -1927,51 +1921,7 @@ public class MainActivity extends Activity {
         preview.reopenCamera();
     }
 
-    public void clickedAudioControl(View view) {
-        if( MyDebug.LOG )
-            Log.d(TAG, "clickedAudioControl");
-        // check hasAudioControl just in case!
-        if( !hasAudioControl() ) {
-            if( MyDebug.LOG )
-                Log.e(TAG, "clickedAudioControl, but hasAudioControl returns false!");
-            return;
-        }
-        this.closePopup();
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String audio_control = sharedPreferences.getString(PreferenceKeys.AudioControlPreferenceKey, "none");
-        if( audio_control.equals("voice") && speechControl.hasSpeechRecognition() ) {
-            if( speechControl.isStarted() ) {
-                speechControl.stopListening();
-            }
-            else {
-                boolean has_audio_permission = true;
-                if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ) {
-                    // we restrict the checks to Android 6 or later just in case, see note in LocationSupplier.setupLocationListener()
-                    if( MyDebug.LOG )
-                        Log.d(TAG, "check for record audio permission");
-                    if( ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED ) {
-                        if( MyDebug.LOG )
-                            Log.d(TAG, "record audio permission not available");
-                        applicationInterface.requestRecordAudioPermission();
-                        has_audio_permission = false;
-                    }
-                }
-                if( has_audio_permission ) {
-                    speechControl.showToast(true);
-                    speechControl.startSpeechRecognizerIntent();
-                    speechControl.speechRecognizerStarted();
-                }
-            }
-        }
-        else if( audio_control.equals("noise") ){
-            if( audio_listener != null ) {
-                freeAudioListener(false);
-            }
-            else {
-                startAudioListener();
-            }
-        }
-    }
+
 
     /* Returns the cameraId that the "Switch camera" button will switch to.
      * Note that this may not necessarily be the next camera ID, on multi camera devices (if
@@ -2454,7 +2404,6 @@ public class MainActivity extends Activity {
             preview.stopVideo(false); // important to stop video, as we'll be changing camera parameters when the settings window closes
         }
         applicationInterface.stopPanorama(true); // important to stop panorama recording, as we might end up as we'll be changing camera parameters when the settings window closes
-        stopAudioListeners();
 
         if( applicationInterface.isSoftwareSyncRunning() ) {
             applicationInterface.getSoftwareSyncController().clearPeriodState();
@@ -2828,12 +2777,6 @@ public class MainActivity extends Activity {
         checkDisableGUIIcons();
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if( sharedPreferences.getString(PreferenceKeys.AudioControlPreferenceKey, "none").equals("none") ) {
-            View speechRecognizerButton = findViewById(R.id.audio_control);
-            speechRecognizerButton.setVisibility(View.GONE);
-        }
-
-        speechControl.initSpeechRecognizer(); // in case we've enabled or disabled speech recognizer
 
         // we no longer call initLocation() here (for having enabled or disabled geotagging), as that's
         // done in setWindowFlagsForCamera() - important not to call it here as well, otherwise if
@@ -5517,90 +5460,6 @@ public class MainActivity extends Activity {
         if( audio_listener != null ) {
             audio_listener.release(wait_until_done);
             audio_listener = null;
-        }
-        mainUI.audioControlStopped();
-    }
-
-    private void startAudioListener() {
-        if( MyDebug.LOG )
-            Log.d(TAG, "startAudioListener");
-        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ) {
-            // we restrict the checks to Android 6 or later just in case, see note in LocationSupplier.setupLocationListener()
-            if( MyDebug.LOG )
-                Log.d(TAG, "check for record audio permission");
-            if( ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED ) {
-                if( MyDebug.LOG )
-                    Log.d(TAG, "record audio permission not available");
-                applicationInterface.requestRecordAudioPermission();
-                return;
-            }
-        }
-
-        MyAudioTriggerListenerCallback callback = new MyAudioTriggerListenerCallback(this);
-        audio_listener = new AudioListener(callback);
-        if( audio_listener.status() ) {
-            preview.showToast(audio_control_toast, R.string.audio_listener_started);
-
-            audio_listener.start();
-            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-            String sensitivity_pref = sharedPreferences.getString(PreferenceKeys.AudioNoiseControlSensitivityPreferenceKey, "0");
-            int audio_noise_sensitivity;
-            switch(sensitivity_pref) {
-                case "3":
-                    audio_noise_sensitivity = 50;
-                    break;
-                case "2":
-                    audio_noise_sensitivity = 75;
-                    break;
-                case "1":
-                    audio_noise_sensitivity = 125;
-                    break;
-                case "-1":
-                    audio_noise_sensitivity = 150;
-                    break;
-                case "-2":
-                    audio_noise_sensitivity = 200;
-                    break;
-                case "-3":
-                    audio_noise_sensitivity = 400;
-                    break;
-                default:
-                    // default
-                    audio_noise_sensitivity = 100;
-                    break;
-            }
-            callback.setAudioNoiseSensitivity(audio_noise_sensitivity);
-            mainUI.audioControlStarted();
-        }
-        else {
-            audio_listener.release(true); // shouldn't be needed, but just to be safe
-            audio_listener = null;
-            preview.showToast(null, R.string.audio_listener_failed);
-        }
-    }
-
-    public boolean hasAudioControl() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String audio_control = sharedPreferences.getString(PreferenceKeys.AudioControlPreferenceKey, "none");
-        if( audio_control.equals("voice") ) {
-            return speechControl.hasSpeechRecognition();
-        }
-        else if( audio_control.equals("noise") ) {
-            return true;
-        }
-        return false;
-    }
-
-	/*void startAudioListeners() {
-		initAudioListener();
-		// no need to restart speech recognizer, as we didn't free it in stopAudioListeners(), and it's controlled by a user button
-	}*/
-
-    public void stopAudioListeners() {
-        freeAudioListener(true);
-        if( speechControl.hasSpeechRecognition() ) {
-            // no need to free the speech recognizer, just stop it
-            speechControl.stopListening();
         }
     }
 
