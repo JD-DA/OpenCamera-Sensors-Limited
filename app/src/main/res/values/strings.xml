@@ -1100,4 +1100,27 @@
             <li>Bug fixes.\n</li>
         </ul>
     </string>
+    <string name="preference_show_exposure_controls" translatable="false">Show Exposure controls icon</string>
+    <string name="preference_show_exposure_controls_summary" translatable="false">Whether to display the icon which
+        display exposure settings
+        when clicked
+    </string>
+    <string name="preference_show_focus_controls" translatable="false">Show the focus settings popup button</string>
+    <string name="preference_show_focus_controls_summary" translatable="false">Choose to whether display or not the
+        button allowing to
+        display the popup menu for focus settings
+    </string>
+    <string name="preference_show_change_camera_controls" translatable="false">Enable switch camera icon</string>
+    <string name="preference_show_change_camera_controls_summary" translatable="false">Allow to change the camera among
+        the ones available (front rear...) cyclically
+    </string>
+    <string name="preference_show_change_mode_controls" translatable="false">Enable switch mode icon</string>
+    <string name="preference_show_change_mode_controls_summary" translatable="false">Allow to change the camera mode
+        between camera and photo
+    </string>
+    <string name="preference_show_gallery_icon" translatable="false">Show gallery icon</string>
+    <string name="preference_show_gallery_icon_summary" translatable="false">Allow to display the gallery icon with a
+        preview of the last capture media
+    </string>
+
 </resources>

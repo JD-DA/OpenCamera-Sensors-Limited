@@ -70,6 +70,20 @@
 
         <!-- TODO: add to strings.xml -->
 
+        <CheckBoxPreference
+                android:key="preference_show_change_camera_controls"
+                android:title="@string/preference_show_change_camera_controls"
+                android:summary="@string/preference_show_change_camera_controls_summary"
+                android:icon="@drawable/switch_camera"
+                android:defaultValue="false"
+        />
+        <CheckBoxPreference
+                android:key="preference_show_change_mode_controls"
+                android:title="@string/preference_show_change_mode_controls"
+                android:summary="@string/preference_show_change_mode_controls_summary"
+                android:icon="@drawable/ic_photo_camera_white_48dp"
+                android:defaultValue="false"
+        />
         <PreferenceScreen
             android:key="preference_imu_settings"
             android:title="IMU settings..."
@@ -850,7 +864,7 @@
                 android:title="@string/preference_show_exposure_lock"
                 android:summary="@string/preference_show_exposure_lock_summary"
                 android:icon="@drawable/exposure_unlocked"
-                android:defaultValue="true"
+                android:defaultValue="false"
                 />
 
             <CheckBoxPreference
@@ -864,7 +878,7 @@
                 android:key="preference_show_zoom_slider_controls"
                 android:title="@string/preference_show_zoom_slider_controls"
                 android:summary="@string/preference_show_zoom_slider_controls_summary"
-                android:defaultValue="true"
+                android:defaultValue="false"
                 />
 
             <CheckBoxPreference
@@ -885,15 +899,39 @@
                 android:key="preference_show_whats_new"
                 android:title="@string/preference_show_whats_new"
                 android:summary="@string/preference_show_whats_new_summary"
-                android:defaultValue="true"
+                android:defaultValue="false"
                 />
+
+            <CheckBoxPreference
+                    android:key="preference_show_exposure_controls"
+                    android:title="@string/preference_show_exposure_controls"
+                    android:summary="@string/preference_show_exposure_controls_summary"
+                    android:icon="@drawable/ic_exposure_white_48dp"
+                    android:defaultValue="false"
+            />
+
+            <CheckBoxPreference
+                    android:key="preference_show_focus_controls"
+                    android:title="@string/preference_show_focus_controls"
+                    android:summary="@string/preference_show_focus_controls_summary"
+                    android:icon="@drawable/popup"
+                    android:defaultValue="false"
+            />
+
+            <CheckBoxPreference
+                    android:key="preference_show_gallery_icon"
+                    android:title="@string/preference_show_gallery_icon"
+                    android:summary="@string/preference_show_gallery_icon"
+                    android:icon="@drawable/shortcut_gallery"
+                    android:defaultValue="false"
+            />
 
             <!--  if we move this to another PreferenceGroup, we should update code to remove this Preference -->
             <SwitchPreference
                 android:key="preference_multi_cam_button"
                 android:title="@string/preference_multi_cam_button"
                 android:summary="@string/preference_multi_cam_button_summary"
-                android:defaultValue="true"
+                android:defaultValue="false"
                 />
 
             <SwitchPreference

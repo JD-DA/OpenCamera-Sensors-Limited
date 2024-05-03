@@ -276,13 +276,7 @@ public class MainActivity extends Activity {
         // Enable all sensors on startup
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor prefEditor = sharedPreferences.edit();
-        prefEditor.putBoolean(PreferenceKeys.AccelPreferenceKey, true);
-        prefEditor.putBoolean(PreferenceKeys.GyroPreferenceKey, true);
-        prefEditor.putBoolean(PreferenceKeys.MagnetometerPrefKey, true);
-        prefEditor.putBoolean(PreferenceKeys.ThermometerPrefKey, true);
-        prefEditor.putBoolean(PreferenceKeys.GravityPrefKey, true);
-        prefEditor.putBoolean(PreferenceKeys.BarometerPrefKey, true);
-        prefEditor.putBoolean(PreferenceKeys.HygrometerPrefKey, true);
+        prefEditor.putString(PreferenceKeys.getFocusPreferenceKey(0, true), "focus_mode_infinity");
         prefEditor.apply();
 
 
@@ -527,6 +521,7 @@ public class MainActivity extends Activity {
                 return true;
             }
         });
+        galleryButton.setVisibility(sharedPreferences.getBoolean(PreferenceKeys.ShowGalleryIconPreferenceKey, true) ? View.VISIBLE : View.GONE);
         if( MyDebug.LOG )
             Log.d(TAG, "onCreate: time after setting long click listeners: " + (System.currentTimeMillis() - debug_time));
 
@@ -698,6 +693,7 @@ public class MainActivity extends Activity {
         }
 
         setModeFromIntents(savedInstanceState);
+        applicationInterface.setVideoPref(true);
 
         // load icons
         preloadIcons(R.array.flash_icons);
@@ -4902,7 +4898,7 @@ public class MainActivity extends Activity {
         View exposureButton = findViewById(R.id.exposure);
         {
             SoftwareSyncController softwareSyncController = applicationInterface.getSoftwareSyncController();
-            exposureButton.setVisibility(supportsExposureButton() && !mainUI.inImmersiveMode() &&
+            exposureButton.setVisibility(supportsExposureButton() && !mainUI.inImmersiveMode() && sharedPreferences.getBoolean(PreferenceKeys.ShowExposureControlsPreferenceKey, false) &&
                     !(applicationInterface.isSoftwareSyncRunning() && softwareSyncController.isLeader() && softwareSyncController.isSettingsBroadcasting()) ? View.VISIBLE : View.GONE);
         }
 

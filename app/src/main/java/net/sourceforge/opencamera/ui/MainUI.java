@@ -49,6 +49,8 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
+import static android.view.View.GONE;
+
 /** This contains functionality related to the main UI.
  */
 public class MainUI {
@@ -822,6 +824,7 @@ public class MainUI {
         if( MyDebug.LOG )
             Log.d(TAG, "setTakePhotoIcon()");
         if( main_activity.getPreview() != null ) {
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(main_activity);
             ImageButton view = main_activity.findViewById(R.id.take_photo);
             int resource;
             int content_description;
@@ -869,6 +872,7 @@ public class MainUI {
             resource = is_client ? R.drawable.ic_empty : main_activity.getPreview().isVideo() ? R.drawable.take_photo : R.drawable.take_video;
             view.setImageResource(resource);
             view.setTag(resource); // for testing
+            view.setVisibility(sharedPreferences.getBoolean(PreferenceKeys.ShowChangeModeControlsPreferenceKey, true) ? View.VISIBLE : GONE);
         }
     }
 
@@ -934,7 +938,7 @@ public class MainUI {
         } else {
             if( MyDebug.LOG )
                 Log.d(TAG, "Remote control DISconnected");
-            remoteConnectedIcon.setVisibility(View.GONE);
+            remoteConnectedIcon.setVisibility(GONE);
         }
 
     }
@@ -1077,7 +1081,7 @@ public class MainUI {
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(main_activity);
                 // if going into immersive mode, the we should set GONE the ones that are set GONE in showGUI(false)
                 //final int visibility_gone = immersive_mode ? View.GONE : View.VISIBLE;
-                final int visibility = immersive_mode ? View.GONE : View.VISIBLE;
+                final int visibility = immersive_mode ? GONE : View.VISIBLE;
                 final int visibility_settings_sync; // for UI that is hidden when settings are being broadcast
                 final int visibility_align_phases; // for the phase alignment UI
                 {
@@ -1085,10 +1089,10 @@ public class MainUI {
                     SoftwareSyncController softwareSyncController = extendedAppInterface.getSoftwareSyncController();
                     visibility_settings_sync = extendedAppInterface.isSoftwareSyncRunning() &&
                             softwareSyncController.isVideoPreparationNeeded() ?
-                            View.GONE : visibility;
+                            GONE : visibility;
                     visibility_align_phases = extendedAppInterface.isSoftwareSyncRunning() &&
                             softwareSyncController.isLeader() && softwareSyncController.isVideoPreparationNeeded() ?
-                            visibility : View.GONE;
+                            visibility : GONE;
                 }
                 if( MyDebug.LOG )
                     Log.d(TAG, "setImmersiveMode: set visibility: " + visibility);
@@ -1217,9 +1221,10 @@ public class MainUI {
         }
         main_activity.runOnUiThread(new Runnable() {
             public void run() {
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(main_activity);
                 final boolean is_panorama_recording = main_activity.getApplicationInterface().getGyroSensor().isRecording();
-                final int visibility = is_panorama_recording ? View.GONE : (show_gui_photo && show_gui_video) ? View.VISIBLE : View.GONE; // for UI that is hidden while taking photo or video
-                final int visibility_video = is_panorama_recording ? View.GONE : show_gui_photo ? View.VISIBLE : View.GONE; // for UI that is only hidden while taking photo
+                final int visibility = is_panorama_recording ? GONE : (show_gui_photo && show_gui_video) ? View.VISIBLE : GONE; // for UI that is hidden while taking photo or video
+                final int visibility_video = is_panorama_recording ? GONE : show_gui_photo ? View.VISIBLE : GONE; // for UI that is only hidden while taking photo
                 final int visibility_settings_sync; // for UI that is hidden while taking photo or video and when settings are being broadcast
                 final int visibility_settings_sync_video; // for UI that is hidden while taking photo and when settings are being broadcast
                 final int visibility_align_phases; // for the phase alignment UI
@@ -1228,13 +1233,13 @@ public class MainUI {
                     SoftwareSyncController softwareSyncController = extendedAppInterface.getSoftwareSyncController();
                     visibility_settings_sync = extendedAppInterface.isSoftwareSyncRunning() &&
                             softwareSyncController.isVideoPreparationNeeded() ?
-                            View.GONE : visibility;
+                            GONE : visibility;
                     visibility_settings_sync_video = extendedAppInterface.isSoftwareSyncRunning() &&
                             softwareSyncController.isVideoPreparationNeeded() ?
-                            View.GONE : visibility_video;
+                            GONE : visibility_video;
                     visibility_align_phases = extendedAppInterface.isSoftwareSyncRunning() &&
                             softwareSyncController.isLeader() && softwareSyncController.isVideoPreparationNeeded() ?
-                            visibility : View.GONE;
+                            visibility : GONE;
                 }
                 View switchCameraButton = main_activity.findViewById(R.id.switch_camera);
                 View switchMultiCameraButton = main_activity.findViewById(R.id.switch_multi_camera);
@@ -1253,9 +1258,9 @@ public class MainUI {
                 View syncSettingsButton = main_activity.findViewById(R.id.sync_settings);
                 View alignPhasesButton = main_activity.findViewById(R.id.align_phases);
                 if( main_activity.getPreview().getCameraControllerManager().getNumberOfCameras() > 1 )
-                    switchCameraButton.setVisibility(visibility);
+                    switchCameraButton.setVisibility(sharedPreferences.getBoolean(PreferenceKeys.ShowChangeCameraControlsPreferenceKey, true) ? visibility : GONE);
                 if( main_activity.showSwitchMultiCamIcon() )
-                    switchMultiCameraButton.setVisibility(visibility);
+                    switchMultiCameraButton.setVisibility(sharedPreferences.getBoolean(PreferenceKeys.ShowChangeCameraControlsPreferenceKey, true) ? visibility : GONE);
                 switchVideoButton.setVisibility(visibility);
                 if( main_activity.supportsExposureButton() )
                     exposureButton.setVisibility(visibility_settings_sync_video); // still allow exposure when recording video
@@ -1293,9 +1298,9 @@ public class MainUI {
                 } else {
                     if( MyDebug.LOG )
                         Log.d(TAG, "Remote control DISconnected");
-                    remoteConnectedIcon.setVisibility(View.GONE);
+                    remoteConnectedIcon.setVisibility(GONE);
                 }
-                popupButton.setVisibility(main_activity.getPreview().supportsFlash() ? visibility_settings_sync_video : visibility_settings_sync); // still allow popup in order to change flash mode when recording video
+                popupButton.setVisibility(sharedPreferences.getBoolean(PreferenceKeys.ShowFocusControlsPreferenceKey, true) ? main_activity.getPreview().supportsFlash() ? visibility_settings_sync_video : visibility_settings_sync : GONE); // still allow popup in order to change flash mode when recording video
 
                 layoutUI(); // needed for "top" UIPlacement, to auto-arrange the buttons
             }
@@ -1986,7 +1991,7 @@ public class MainUI {
         View manual_exposure_seek_bar = main_activity.findViewById(R.id.manual_exposure_container);
         String iso_value = main_activity.getApplicationInterface().getISOPref();
         if( main_activity.getPreview().usingCamera2API() && !iso_value.equals(CameraController.ISO_DEFAULT) ) {
-            exposure_seek_bar.setVisibility(View.GONE);
+            exposure_seek_bar.setVisibility(GONE);
 
             // with Camera2 API, when using manual ISO we instead show sliders for ISO range and exposure time
             if( main_activity.getPreview().supportsISORange() ) {
@@ -1996,15 +2001,15 @@ public class MainUI {
                     exposure_time_seek_bar.setVisibility(View.VISIBLE);
                 }
                 else {
-                    exposure_time_seek_bar.setVisibility(View.GONE);
+                    exposure_time_seek_bar.setVisibility(GONE);
                 }
             }
             else {
-                manual_exposure_seek_bar.setVisibility(View.GONE);
+                manual_exposure_seek_bar.setVisibility(GONE);
             }
         }
         else {
-            manual_exposure_seek_bar.setVisibility(View.GONE);
+            manual_exposure_seek_bar.setVisibility(GONE);
 
             if( main_activity.getPreview().supportsExposures() ) {
                 exposure_seek_bar.setVisibility(View.VISIBLE);
@@ -2012,7 +2017,7 @@ public class MainUI {
                 seek_bar_zoom.setVisibility(View.VISIBLE);
             }
             else {
-                exposure_seek_bar.setVisibility(View.GONE);
+                exposure_seek_bar.setVisibility(GONE);
             }
         }
 
@@ -2024,11 +2029,11 @@ public class MainUI {
                 manual_white_balance_seek_bar.setVisibility(View.VISIBLE);
             }
             else {
-                manual_white_balance_seek_bar.setVisibility(View.GONE);
+                manual_white_balance_seek_bar.setVisibility(GONE);
             }
         }
         else {
-            manual_white_balance_seek_bar.setVisibility(View.GONE);
+            manual_white_balance_seek_bar.setVisibility(GONE);
         }
 
         //layoutUI(); // needed to update alignment of exposure UI
@@ -2111,15 +2116,15 @@ public class MainUI {
 
         clearRemoteControlForExposureUI(); // must be called before we actually close the exposure panel
         View view = main_activity.findViewById(R.id.sliders_container);
-        view.setVisibility(View.GONE);
+        view.setVisibility(GONE);
         view = main_activity.findViewById(R.id.iso_container);
-        view.setVisibility(View.GONE);
+        view.setVisibility(GONE);
         view = main_activity.findViewById(R.id.exposure_container);
-        view.setVisibility(View.GONE);
+        view.setVisibility(GONE);
         view = main_activity.findViewById(R.id.manual_exposure_container);
-        view.setVisibility(View.GONE);
+        view.setVisibility(GONE);
         view = main_activity.findViewById(R.id.manual_white_balance_container);
-        view.setVisibility(View.GONE);
+        view.setVisibility(GONE);
     }
 
     public void setPopupIcon() {
@@ -2170,7 +2175,7 @@ public class MainUI {
              *     See test testSwitchResolution().
              */
             if( cache_popup && !force_destroy_popup ) {
-                popup_view.setVisibility(View.GONE);
+                popup_view.setVisibility(GONE);
             }
             else {
                 destroyPopup();

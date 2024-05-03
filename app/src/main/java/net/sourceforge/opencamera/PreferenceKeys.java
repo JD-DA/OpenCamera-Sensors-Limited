@@ -259,6 +259,16 @@ public class PreferenceKeys {
 
     public static final String ShowISOPreferenceKey = "preference_show_iso";
 
+    public static final String ShowExposureControlsPreferenceKey = "preference_show_exposure_controls";
+
+    public static final String ShowFocusControlsPreferenceKey = "preference_show_focus_controls";
+
+    public static final String ShowChangeCameraControlsPreferenceKey = "preference_show_change_camera_controls";
+
+    public static final String ShowChangeModeControlsPreferenceKey = "preference_show_change_mode_controls";
+
+    public static final String ShowGalleryIconPreferenceKey = "preference_show_gallery_icon";
+
     public static final String HistogramPreferenceKey = "preference_histogram";
 
     public static final String ZebraStripesPreferenceKey = "preference_zebra_stripes";
