@@ -3252,7 +3252,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
             //assertTrue(!mPreview.isTakingPhoto() || focusButton.getVisibility() == View.GONE);
             assertTrue(!mPreview.isTakingPhoto() || exposureButton.getVisibility() == View.GONE);
             assertTrue(!mPreview.isTakingPhoto() || exposureLockButton.getVisibility() == View.GONE);
-            assertTrue(!mPreview.isTakingPhoto() || audioControlButton.getVisibility() == View.GONE);
             assertTrue(!mPreview.isTakingPhoto() || popupButton.getVisibility() == View.GONE);
             assertTrue(!mPreview.isTakingPhoto() || trashButton.getVisibility() == View.GONE);
             assertTrue(!mPreview.isTakingPhoto() || shareButton.getVisibility() == View.GONE);
@@ -4828,7 +4827,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         assertEquals(switchVideoButton.getVisibility(), View.VISIBLE);
         int exposureVisibility = exposureButton.getVisibility();
         int exposureLockVisibility = exposureLockButton.getVisibility();
-        assertEquals(audioControlButton.getVisibility(), (has_audio_control_button ? View.VISIBLE : View.GONE));
         assertEquals(popupButton.getVisibility(), View.VISIBLE);
         assertEquals(trashButton.getVisibility(), View.GONE);
         assertEquals(shareButton.getVisibility(), View.GONE);
@@ -4846,7 +4844,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         assertEquals(switchVideoButton.getVisibility(), View.GONE);
         assertEquals(exposureButton.getVisibility(), View.GONE);
         assertEquals(exposureLockButton.getVisibility(), View.GONE);
-        assertEquals(audioControlButton.getVisibility(), View.GONE);
         assertEquals(popupButton.getVisibility(), View.GONE);
         assertEquals(trashButton.getVisibility(), View.GONE);
         assertEquals(shareButton.getVisibility(), View.GONE);
@@ -4865,7 +4862,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         assertEquals(switchVideoButton.getVisibility(), View.VISIBLE);
         assertEquals(exposureButton.getVisibility(), exposureVisibility);
         assertEquals(exposureLockButton.getVisibility(), exposureLockVisibility);
-        assertEquals(audioControlButton.getVisibility(), (has_audio_control_button ? View.VISIBLE : View.GONE));
         assertEquals(popupButton.getVisibility(), View.VISIBLE);
         assertEquals(trashButton.getVisibility(), View.GONE);
         assertEquals(shareButton.getVisibility(), View.GONE);
@@ -4883,7 +4879,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         assertEquals(switchVideoButton.getVisibility(), View.GONE);
         assertEquals(exposureButton.getVisibility(), View.GONE);
         assertEquals(exposureLockButton.getVisibility(), View.GONE);
-        assertEquals(audioControlButton.getVisibility(), View.GONE);
         assertEquals(popupButton.getVisibility(), View.GONE);
         assertEquals(trashButton.getVisibility(), View.GONE);
         assertEquals(shareButton.getVisibility(), View.GONE);
@@ -4902,7 +4897,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         assertEquals(switchVideoButton.getVisibility(), View.VISIBLE);
         assertEquals(exposureButton.getVisibility(), exposureVisibility);
         assertEquals(exposureLockButton.getVisibility(), exposureLockVisibility);
-        assertEquals(audioControlButton.getVisibility(), (has_audio_control_button ? View.VISIBLE : View.GONE));
         assertEquals(popupButton.getVisibility(), View.VISIBLE);
         assertEquals(trashButton.getVisibility(), View.GONE);
         assertEquals(shareButton.getVisibility(), View.GONE);
@@ -4924,7 +4918,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         assertEquals(switchVideoButton.getVisibility(), View.VISIBLE);
         assertEquals(exposureButton.getVisibility(), exposureVisibility);
         assertEquals(exposureLockButton.getVisibility(), exposureLockVisibility);
-        assertEquals(audioControlButton.getVisibility(), (has_audio_control_button ? View.VISIBLE : View.GONE));
         assertEquals(popupButton.getVisibility(), View.VISIBLE);
         assertEquals(trashButton.getVisibility(), View.GONE);
         assertEquals(shareButton.getVisibility(), View.GONE);
@@ -4942,7 +4935,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         assertEquals(switchVideoButton.getVisibility(), View.GONE);
         assertEquals(exposureButton.getVisibility(), View.GONE);
         assertEquals(exposureLockButton.getVisibility(), View.GONE);
-        assertEquals(audioControlButton.getVisibility(), View.GONE);
         assertEquals(popupButton.getVisibility(), View.GONE);
         assertEquals(trashButton.getVisibility(), View.GONE);
         assertEquals(shareButton.getVisibility(), View.GONE);
@@ -4962,7 +4954,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         assertEquals(switchVideoButton.getVisibility(), View.VISIBLE);
         assertEquals(exposureButton.getVisibility(), exposureVisibility);
         assertEquals(exposureLockButton.getVisibility(), exposureLockVisibility);
-        assertEquals(audioControlButton.getVisibility(), (has_audio_control_button ? View.VISIBLE : View.GONE));
         assertEquals(popupButton.getVisibility(), View.VISIBLE);
         assertEquals(trashButton.getVisibility(), View.GONE);
         assertEquals(shareButton.getVisibility(), View.GONE);
@@ -4992,7 +4983,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
             assertEquals(switchVideoButton.getVisibility(), View.GONE);
             assertEquals(exposureButton.getVisibility(), View.GONE);
             assertEquals(exposureLockButton.getVisibility(), View.GONE);
-            assertEquals(audioControlButton.getVisibility(), View.GONE);
             assertEquals(popupButton.getVisibility(), View.GONE);
             assertEquals(trashButton.getVisibility(), View.GONE);
             assertEquals(shareButton.getVisibility(), View.GONE);
@@ -5010,7 +5000,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
             assertEquals(switchVideoButton.getVisibility(), View.VISIBLE);
             assertEquals(exposureButton.getVisibility(), exposureVisibility);
             assertEquals(exposureLockButton.getVisibility(), exposureLockVisibility);
-            assertEquals(audioControlButton.getVisibility(), (has_audio_control_button ? View.VISIBLE : View.GONE));
             assertEquals(popupButton.getVisibility(), View.VISIBLE);
             assertEquals(trashButton.getVisibility(), View.GONE);
             assertEquals(shareButton.getVisibility(), View.GONE);
@@ -5045,7 +5034,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
             assertEquals(switchVideoButton.getVisibility(), View.GONE);
             assertEquals(exposureButton.getVisibility(), View.GONE);
             assertEquals(exposureLockButton.getVisibility(), View.GONE);
-            assertEquals(audioControlButton.getVisibility(), View.GONE);
             assertEquals(popupButton.getVisibility(), View.GONE);
             assertEquals(trashButton.getVisibility(), View.GONE);
             assertEquals(shareButton.getVisibility(), View.GONE);
@@ -5063,7 +5051,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
             assertEquals(switchVideoButton.getVisibility(), View.VISIBLE);
             assertEquals(exposureButton.getVisibility(), exposureVisibility);
             assertEquals(exposureLockButton.getVisibility(), exposureLockVisibility);
-            assertEquals(audioControlButton.getVisibility(), (has_audio_control_button ? View.VISIBLE : View.GONE));
             assertEquals(popupButton.getVisibility(), View.VISIBLE);
             assertEquals(trashButton.getVisibility(), View.GONE);
             assertEquals(shareButton.getVisibility(), View.GONE);
@@ -5092,7 +5079,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
             assertEquals(switchVideoButton.getVisibility(), View.GONE);
             assertEquals(exposureButton.getVisibility(), View.GONE);
             assertEquals(exposureLockButton.getVisibility(), View.GONE);
-            assertEquals(audioControlButton.getVisibility(), View.GONE);
             assertEquals(popupButton.getVisibility(), View.GONE);
             assertEquals(trashButton.getVisibility(), View.GONE);
             assertEquals(shareButton.getVisibility(), View.GONE);
@@ -5465,7 +5451,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         //int focusVisibility = focusButton.getVisibility();
         int exposureVisibility = exposureButton.getVisibility();
         int exposureLockVisibility = exposureLockButton.getVisibility();
-        assertEquals(audioControlButton.getVisibility(), (has_audio_control_button ? View.VISIBLE : View.GONE));
         assertEquals(popupButton.getVisibility(), View.VISIBLE);
         assertEquals(trashButton.getVisibility(), View.GONE);
         assertEquals(shareButton.getVisibility(), View.GONE);
@@ -5501,7 +5486,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         //assertTrue(focusButton.getVisibility() == View.GONE);
         assertEquals(exposureButton.getVisibility(), View.GONE);
         assertEquals(exposureLockButton.getVisibility(), View.GONE);
-        assertEquals(audioControlButton.getVisibility(), View.GONE);
         assertEquals(popupButton.getVisibility(), View.GONE);
         assertEquals(trashButton.getVisibility(), View.VISIBLE);
         assertEquals(shareButton.getVisibility(), View.VISIBLE);
@@ -5534,7 +5518,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
             //assertTrue(focusButton.getVisibility() == focusVisibility);
             assertEquals(exposureButton.getVisibility(), exposureVisibility);
             assertEquals(exposureLockButton.getVisibility(), exposureLockVisibility);
-            assertEquals(audioControlButton.getVisibility(), (has_audio_control_button ? View.VISIBLE : View.GONE));
             assertEquals(popupButton.getVisibility(), View.VISIBLE);
             assertEquals(trashButton.getVisibility(), View.GONE);
             assertEquals(shareButton.getVisibility(), View.GONE);
@@ -5864,7 +5847,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         //assertTrue(focusButton.getVisibility() == focusVisibility);
         assertEquals(exposureButton.getVisibility(), exposureVisibility);
         assertEquals(exposureLockButton.getVisibility(), exposureLockVisibility);
-        assertEquals(audioControlButton.getVisibility(), (has_audio_control_button ? View.VISIBLE : View.GONE));
         assertEquals(popupButton.getVisibility(), View.VISIBLE);
         assertEquals(trashButton.getVisibility(), View.GONE);
         assertEquals(shareButton.getVisibility(), View.GONE);
@@ -6162,7 +6144,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
             assertEquals(switchMultiCameraButton.getVisibility(), View.GONE);
             //assertTrue(switchVideoButton.getVisibility() == (immersive_mode ? View.GONE : View.VISIBLE));
             assertEquals(switchVideoButton.getVisibility(), View.GONE);
-            assertEquals(audioControlButton.getVisibility(), View.GONE);
             assertEquals(popupButton.getVisibility(), (!immersive_mode && mPreview.supportsFlash() ? View.VISIBLE : View.GONE)); // popup button only visible when recording video if flash supported
             assertEquals(exposureButton.getVisibility(), exposureVisibility);
             assertEquals(exposureLockButton.getVisibility(), exposureLockVisibility);
@@ -6281,7 +6262,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
             Log.d(TAG, "switchCameraButton.getVisibility(): " + switchCameraButton.getVisibility());
             assertEquals(switchCameraButton.getVisibility(), (immersive_mode ? View.GONE : (mPreview.getCameraControllerManager().getNumberOfCameras() > 1 ? View.VISIBLE : View.GONE)));
             assertEquals(switchMultiCameraButton.getVisibility(), (immersive_mode ? View.GONE : (mActivity.showSwitchMultiCamIcon() ? View.VISIBLE : View.GONE)));
-            assertEquals(audioControlButton.getVisibility(), ((has_audio_control_button && !immersive_mode) ? View.VISIBLE : View.GONE));
         }
         assertEquals(switchVideoButton.getVisibility(), (immersive_mode ? View.GONE : View.VISIBLE));
         assertEquals(exposureButton.getVisibility(), exposureVisibility);
@@ -7987,7 +7967,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         //assertTrue(focusButton.getVisibility() == View.GONE);
         assertEquals(exposureButton.getVisibility(), exposureVisibility);
         assertEquals(exposureLockButton.getVisibility(), exposureLockVisibility);
-        assertEquals(audioControlButton.getVisibility(), View.GONE);
         assertEquals(popupButton.getVisibility(), (mPreview.supportsFlash() ? View.VISIBLE : View.GONE)); // popup button only visible when recording video if flash supported
         assertEquals(trashButton.getVisibility(), View.GONE);
         assertEquals(shareButton.getVisibility(), View.GONE);
@@ -8042,7 +8021,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         //assertTrue(focusButton.getVisibility() == focusVisibility);
         assertEquals(exposureButton.getVisibility(), exposureVisibility);
         assertEquals(exposureLockButton.getVisibility(), exposureLockVisibility);
-        assertEquals(audioControlButton.getVisibility(), (has_audio_control_button ? View.VISIBLE : View.GONE));
         assertEquals(popupButton.getVisibility(), View.VISIBLE);
         assertEquals(trashButton.getVisibility(), View.GONE);
         assertEquals(shareButton.getVisibility(), View.GONE);
@@ -12220,7 +12198,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         assertEquals(switchVideoButton.getVisibility(), View.VISIBLE);
         assertEquals(exposureButton.getVisibility(), View.VISIBLE);
         assertEquals(exposureLockButton.getVisibility(), (mPreview.supportsExposureLock() ? View.VISIBLE : View.GONE));
-        assertEquals(audioControlButton.getVisibility(), View.GONE);
         assertEquals(popupButton.getVisibility(), View.VISIBLE);
         assertEquals(trashButton.getVisibility(), View.GONE);
         assertEquals(shareButton.getVisibility(), View.GONE);
