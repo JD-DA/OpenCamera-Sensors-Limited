@@ -2296,7 +2296,7 @@ public class MyApplicationInterface extends BasicApplicationInterface {
                     e.printStackTrace();
                 }
             }
-            if( thumbnail != null ) {
+            if (thumbnail != null && sharedPreferences.getBoolean(PreferenceKeys.ShowGalleryIconPreferenceKey, false)) {
                 ImageButton galleryButton = main_activity.findViewById(R.id.gallery);
                 int width = thumbnail.getWidth();
                 int height = thumbnail.getHeight();
