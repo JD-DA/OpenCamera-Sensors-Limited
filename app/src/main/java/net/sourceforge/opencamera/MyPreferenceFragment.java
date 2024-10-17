@@ -163,6 +163,27 @@ public class MyPreferenceFragment extends PreferenceFragment implements OnShared
             hygroPref.setChecked(false);
             hygroPref.setEnabled(false);
         }
+
+        final boolean supports_linear = bundle.getBoolean(PreferenceKeys.SupportsLinearPrefKey);
+        if (!supports_linear) {
+            CheckBoxPreference altiPref = (CheckBoxPreference) findPreference(PreferenceKeys.LinearPrefKey);
+            altiPref.setChecked(false);
+            altiPref.setEnabled(false);
+        }
+
+        final boolean supports_magnetic_field = bundle.getBoolean(PreferenceKeys.SupportsRotationPrefKey);
+        if (!supports_magnetic_field) {
+            CheckBoxPreference baroPref = (CheckBoxPreference) findPreference(PreferenceKeys.RotationPrefKey);
+            baroPref.setChecked(false);
+            baroPref.setEnabled(false);
+        }
+
+        final boolean supports_orientation = bundle.getBoolean(PreferenceKeys.SupportsOrientationPrefKey);
+        if (!supports_orientation) {
+            CheckBoxPreference hygroPref = (CheckBoxPreference) findPreference(PreferenceKeys.OrientationPrefKey);
+            hygroPref.setChecked(false);
+            hygroPref.setEnabled(false);
+        }
         final boolean supports_auto_stabilise = bundle.getBoolean("supports_auto_stabilise");
         if( MyDebug.LOG )
             Log.d(TAG, "supports_auto_stabilise: " + supports_auto_stabilise);

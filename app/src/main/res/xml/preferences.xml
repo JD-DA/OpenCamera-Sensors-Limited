@@ -152,6 +152,21 @@
                         android:title="HYGROMETER"
                         android:defaultValue="true"
                 />
+                <CheckBoxPreference
+                        android:key="preference_linear_acceleration"
+                        android:title="LINEAR_ACCELERATION"
+                        android:defaultValue="true"
+                />
+                <CheckBoxPreference
+                        android:key="preference_rotation"
+                        android:title="ROTATION"
+                        android:defaultValue="true"
+                />
+                <CheckBoxPreference
+                        android:key="preference_orientation"
+                        android:title="ORIENTATION"
+                        android:defaultValue="true"
+                />
 
             </PreferenceCategory>
 

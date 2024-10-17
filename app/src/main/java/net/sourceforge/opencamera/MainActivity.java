@@ -2477,6 +2477,9 @@ public class MainActivity extends Activity {
         bundle.putBoolean(PreferenceKeys.SupportsGravityKey, mRawSensorInfo.isSensorAvailable(Sensor.TYPE_GRAVITY));
         bundle.putBoolean(PreferenceKeys.SupportsHygrometerKey, mRawSensorInfo.isSensorAvailable(Sensor.TYPE_RELATIVE_HUMIDITY));
         bundle.putBoolean(PreferenceKeys.SupportsBarometerKey, mRawSensorInfo.isSensorAvailable(Sensor.TYPE_PRESSURE));
+        bundle.putBoolean(PreferenceKeys.SupportsLinearPrefKey, mRawSensorInfo.isSensorAvailable(Sensor.TYPE_LINEAR_ACCELERATION));
+        bundle.putBoolean(PreferenceKeys.SupportsRotationPrefKey, mRawSensorInfo.isSensorAvailable(Sensor.TYPE_ROTATION_VECTOR));
+        bundle.putBoolean(PreferenceKeys.SupportsOrientationPrefKey, mRawSensorInfo.isSensorAvailable(Sensor.TYPE_ORIENTATION));
 
         bundle.putInt("cameraId", this.preview.getCameraId());
         bundle.putInt("nCameras", preview.getCameraControllerManager().getNumberOfCameras());

@@ -80,8 +80,20 @@ public class PreferenceHandler {
         return mSharedPreferences.getBoolean(PreferenceKeys.HygrometerPrefKey, true);
     }
 
+    public boolean isLinearEnabled() {
+        return mSharedPreferences.getBoolean(PreferenceKeys.LinearPrefKey, true);
+    }
+
+    public boolean isRotationEnabled() {
+        return mSharedPreferences.getBoolean(PreferenceKeys.RotationPrefKey, true);
+    }
+
+    public boolean isOrientationEnabled() {
+        return mSharedPreferences.getBoolean(PreferenceKeys.OrientationPrefKey, true);
+    }
+
     public boolean isIMUSensorEnabled() {
-        return isAccelEnabled() || isGyroEnabled() || isMagneticEnabled() || isTempEnabled() || isBaroEnabled() || isHygroEnabled();
+        return isAccelEnabled() || isGyroEnabled() || isMagneticEnabled() || isTempEnabled() || isBaroEnabled() || isHygroEnabled() || isLinearEnabled() || isRotationEnabled() || isOrientationEnabled();
     }
 
     public String getVideoFormat() {

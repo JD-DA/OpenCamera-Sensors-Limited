@@ -343,6 +343,12 @@ public class PreferenceKeys {
 
     public static final String HygrometerPrefKey = "preference_hygrometer";
 
+    public static final String LinearPrefKey = "preference_linear_acceleration";
+
+    public static final String RotationPrefKey = "preference_rotation";
+
+    public static final String OrientationPrefKey = "preference_orientation";
+
     public static final String SupportsMagnetometerKey = "preference_supports_magnetometer";
 
     public static final String SupportsAccelKey = "supports_accel";
@@ -357,6 +363,12 @@ public class PreferenceKeys {
 
     public static final String SupportsHygrometerKey = "supports_hygro";
 
+    public static final String SupportsLinearPrefKey = "preference_linear_acceleration";
+
+    public static final String SupportsRotationPrefKey = "preference_rotation";
+
+    public static final String SupportsOrientationPrefKey = "preference_orientation";
+
     public static final String saveFramesPreferenceKey = "preference_save_video_frames";
 
     public static final String AccelSampleRatePreferenceKey = "preference_accel_sample_rate";
@@ -370,6 +382,12 @@ public class PreferenceKeys {
     public static final String GraviSampleRatePreferenceKey = "preference_gravi_sample_rate";
 
     public static final String HygroSampleRatePreferenceKey = "preference_gravi_sample_rate";
+
+    public static final String OrientationSampleRatePreferenceKey = "preference_orientation_sample_rate";
+
+    public static final String LinearAccelSampleRatePreferenceKey = "preference_linear_sample_rate";
+
+    public static final String RotationSampleRatePreferenceKey = "preference_rotation_sample_rate";
 
     public static final String BaroSampleRatePreferenceKey = "preference_baro_sample_rate";
 

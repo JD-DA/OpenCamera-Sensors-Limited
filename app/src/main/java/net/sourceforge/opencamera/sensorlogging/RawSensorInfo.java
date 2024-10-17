@@ -36,7 +36,7 @@ public class RawSensorInfo implements SensorEventListener {
     private static final String TAG = "RawSensorInfo";
     private static final String CSV_SEPARATOR = ",";
     private static final List<Integer> SENSOR_TYPES = Collections.unmodifiableList(
-            Arrays.asList(Sensor.TYPE_ACCELEROMETER, Sensor.TYPE_GYROSCOPE, Sensor.TYPE_MAGNETIC_FIELD, Sensor.TYPE_AMBIENT_TEMPERATURE,Sensor.TYPE_GRAVITY,Sensor.TYPE_PRESSURE,Sensor.TYPE_RELATIVE_HUMIDITY)
+            Arrays.asList(Sensor.TYPE_ACCELEROMETER, Sensor.TYPE_GYROSCOPE, Sensor.TYPE_MAGNETIC_FIELD, Sensor.TYPE_AMBIENT_TEMPERATURE, Sensor.TYPE_GRAVITY, Sensor.TYPE_PRESSURE, Sensor.TYPE_RELATIVE_HUMIDITY, Sensor.TYPE_LINEAR_ACCELERATION, Sensor.TYPE_ROTATION_VECTOR, Sensor.TYPE_ORIENTATION)
     );
     private static final Map<Integer, String> SENSOR_TYPE_NAMES;
     static {
@@ -48,6 +48,10 @@ public class RawSensorInfo implements SensorEventListener {
         SENSOR_TYPE_NAMES.put(Sensor.TYPE_GRAVITY, "gravity");
         SENSOR_TYPE_NAMES.put(Sensor.TYPE_PRESSURE, "baro");
         SENSOR_TYPE_NAMES.put(Sensor.TYPE_RELATIVE_HUMIDITY, "hygro");
+        SENSOR_TYPE_NAMES.put(Sensor.TYPE_LINEAR_ACCELERATION, "linear_accel");
+        SENSOR_TYPE_NAMES.put(Sensor.TYPE_ROTATION_VECTOR, "rotation");
+        SENSOR_TYPE_NAMES.put(Sensor.TYPE_ORIENTATION, "orientation");
+
     }
 
     final private SensorManager mSensorManager;

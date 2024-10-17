@@ -315,6 +315,24 @@ public class ExtendedAppInterface extends MyApplicationInterface {
                 mMainActivity.getPreview().showToast(null, "Humidity unavailable");
             }
         }
+        if (mPrefs.isLinearEnabled()) {
+            int linearSampleRate = mPrefs.getSensorSampleRate(PreferenceKeys.LinearAccelSampleRatePreferenceKey);
+            if (!mRawSensorInfo.enableSensor(Sensor.TYPE_LINEAR_ACCELERATION, linearSampleRate)) {
+                mMainActivity.getPreview().showToast(null, "Linear Acceleration unavailable");
+            }
+        }
+        if (mPrefs.isRotationEnabled()) {
+            int rotationSampleRate = mPrefs.getSensorSampleRate(PreferenceKeys.RotationSampleRatePreferenceKey);
+            if (!mRawSensorInfo.enableSensor(Sensor.TYPE_ROTATION_VECTOR, rotationSampleRate)) {
+                mMainActivity.getPreview().showToast(null, "Rotation sensor unavailable");
+            }
+        }
+        if (mPrefs.isOrientationEnabled()) {
+            int orientationSampleRate = mPrefs.getSensorSampleRate(PreferenceKeys.OrientationSampleRatePreferenceKey);
+            if (!mRawSensorInfo.enableSensor(Sensor.TYPE_ORIENTATION, orientationSampleRate)) {
+                mMainActivity.getPreview().showToast(null, "Orientation sensor unavailable");
+            }
+        }
 
         Map<Integer, Boolean> wantSensorRecordingMap = new HashMap<>();
         wantSensorRecordingMap.put(Sensor.TYPE_ACCELEROMETER, mPrefs.isAccelEnabled());
@@ -324,6 +342,9 @@ public class ExtendedAppInterface extends MyApplicationInterface {
         wantSensorRecordingMap.put(Sensor.TYPE_GRAVITY, mPrefs.isGravityEnabled());
         wantSensorRecordingMap.put(Sensor.TYPE_AMBIENT_TEMPERATURE, mPrefs.isTempEnabled());
         wantSensorRecordingMap.put(Sensor.TYPE_RELATIVE_HUMIDITY,mPrefs.isHygroEnabled());
+        wantSensorRecordingMap.put(Sensor.TYPE_LINEAR_ACCELERATION, mPrefs.isLinearEnabled());
+        wantSensorRecordingMap.put(Sensor.TYPE_ROTATION_VECTOR, mPrefs.isRotationEnabled());
+        wantSensorRecordingMap.put(Sensor.TYPE_ORIENTATION, mPrefs.isOrientationEnabled());
         mRawSensorInfo.startRecording(mMainActivity, currentDate, wantSensorRecordingMap);
     }
 
